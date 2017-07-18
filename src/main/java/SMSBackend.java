@@ -1,13 +1,20 @@
+import com.twilio.base.ResourceSet;
+import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.resource.instance.Sms;
+
+import model.SmsMessage;
+import model.SmsService;
 import spark.Spark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.setPort;
 
 public class SMSBackend {
     public static void main(String[] args) {
@@ -22,15 +29,19 @@ public class SMSBackend {
         }
         Spark.port(port);
 
+        TwilioRestClient client = new TwilioRestClient(System.getenv("AC21e8234124dff16803124e62af2661d1"),
+                System.getenv("9e855d7a8c39f0c5fa36676a265640fe"));
 
         get("/", (req, res) -> "Hello, World");
 
-        TwilioRestClient client = new TwilioRestClient(System.getenv("TWILIO_ACCOUNT_SID"), System.getenv("TWILIO_AUTH_TOKEN"));
+        before((req, res) -> {
+            res.type("application/json");
+        });
 
         post("/sms", (req, res) -> {
             String body = req.queryParams("Body");
             String to = req.queryParams("To");
-            String from = System.getenv("TWILIO_NUMBER");
+            String from = System.getenv("+14437207354");
 
             Map<String, String> callParams = new HashMap<>();
             callParams.put("To", to);
@@ -41,5 +52,16 @@ public class SMSBackend {
             return message.getSid();
         });
 
+        List<SmsMessage> messageList = new ArrayList<>();
+        ResourceSet<Message> smss = Message.reader().read();
+
+        // Loop over smss and print out a property for each one.
+        for (Message sms : smss) {
+            messageList.add(new SmsMessage(
+                    sms.getTo(), sms.getDateSent().toString(),
+                    sms.getBody().substring(sms.getBody().length() - 6)));
+        }
+
+        new SmsController(new SmsService(messageList));
     }
 }
