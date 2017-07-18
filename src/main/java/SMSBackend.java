@@ -49,7 +49,7 @@ public class SMSBackend {
             return message.getSid();
         });
 
-        List<SmsMessage> messageList = new ArrayList<>();
+        /*List<SmsMessage> messageList = new ArrayList<>();
         SmsList smss = client.getAccount().getSmsMessages();
 
         // Loop over smss and print out a property for each one.
@@ -57,8 +57,8 @@ public class SMSBackend {
             messageList.add(new SmsMessage(
                     sms.getTo(), sms.getDateSent().toString(),
                     sms.getBody().substring(sms.getBody().length() - 6)));
-        }
+        }*/
 
-        new SmsController(new SmsService(messageList));
+        new SmsController(client);
     }
 }
