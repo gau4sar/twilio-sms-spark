@@ -1,7 +1,6 @@
 import com.twilio.sdk.TwilioRestClient;
-import com.twilio.sdk.resource.ResourceSet;
-
-import com.twilio.sdk.resource.api.v2010.account.Message;
+import com.twilio.sdk.resource.instance.Sms;
+import com.twilio.sdk.resource.list.SmsList;
 import model.SmsMessage;
 import model.SmsService;
 
@@ -16,13 +15,14 @@ import static spark.Spark.get;
 public class SmsController {
 
     public SmsController(TwilioRestClient client) {
-        List<SmsMessage> messageList = new ArrayList<>();
 
         get("/users", (request, response) -> {
-            // process request
-            ResourceSet<Message> smss = Message.read(client.getAccountSid()).execute();
+
+            List<SmsMessage> messageList = new ArrayList<>();
+            SmsList smss = client.getAccount().getSmsMessages();
+
             // Loop over smss and print out a property for each one.
-            for (Message sms : smss) {
+            for (Sms sms : smss) {
                 messageList.add(new SmsMessage(
                         sms.getTo(), sms.getDateSent().toString(),
                         sms.getBody().substring(sms.getBody().length() - 6)));
