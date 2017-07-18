@@ -1,7 +1,5 @@
 import model.SmsService;
 
-import static spark.Spark.after;
-import static spark.Spark.before;
 import static spark.Spark.get;
 
 /**
