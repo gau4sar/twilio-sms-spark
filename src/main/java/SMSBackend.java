@@ -38,7 +38,7 @@ public class SMSBackend {
         post("/sms", (req, res) -> {
             String body = req.queryParams("Body");
             String to = req.queryParams("To");
-            String from = System.getenv("+14437207354");
+            String from = "+14437207354";
 
             Map<String, String> callParams = new HashMap<>();
             callParams.put("To", to);
