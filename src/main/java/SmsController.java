@@ -24,13 +24,13 @@ public class SmsController {
             // Loop over smss and print out a property for each one.
             for (Sms sms : smss) {
                 messageList.add(new SmsMessage(
-                        sms.getTo(), sms.getDateSent().toString(),
+                        sms.getTo(), Utils.convertTimeZone(sms.getDateSent().toString()),
                         sms.getBody().substring(sms.getBody().length() - 6)));
             }
 
             SmsService smsService = new SmsService(messageList);
             return smsService.getSmsMessages();
-        }, JsonUtil.json());
+        }, Utils.json());
 
         // more routes
 
