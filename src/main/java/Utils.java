@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by gaurav on 18/07/17.
@@ -20,6 +21,7 @@ public class Utils {
 
     public static String convertTimeZone(String dateString) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+        formatter.setTimeZone(TimeZone.getTimeZone("IST"));
         Date date = null;
         try {
             date = formatter.parse(dateString);
