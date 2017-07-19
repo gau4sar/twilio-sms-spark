@@ -20,14 +20,18 @@ public class Utils {
     }
 
     public static String convertTimeZone(String dateString) {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-        formatter.setTimeZone(TimeZone.getTimeZone("IST"));
+        DateFormat originalFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        targetFormat.setTimeZone(TimeZone.getTimeZone("IST"));
         Date date = null;
         try {
-            date = formatter.parse(dateString);
+            date = originalFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return formatter.format(date);
+        String formattedDate = targetFormat.format(date);
+        System.out.println(formattedDate);
+
+        return formattedDate;
     }
 }
