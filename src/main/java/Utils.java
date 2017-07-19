@@ -21,7 +21,7 @@ public class Utils {
 
     public static String convertTimeZone(String dateString) {
         DateFormat originalFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
-        DateFormat targetFormat = new SimpleDateFormat("HH:mm a, d MMM, yyyy");
+        DateFormat targetFormat = new SimpleDateFormat("HH:mm a, d MMM yyyy");
         targetFormat.setTimeZone(TimeZone.getTimeZone("IST"));
         Date date = null;
         try {
