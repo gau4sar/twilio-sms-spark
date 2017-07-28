@@ -20,9 +20,7 @@ public class SMSBackend {
         }
         Spark.port(port);
 
-        TwilioRestClient client = new TwilioRestClient(
-                "AC21e8234124dff16803124e62af2661d1",
-                "9e855d7a8c39f0c5fa36676a265640fe");
+        TwilioRestClient client = new TwilioRestClient(Constants.USERNAME, Constants.PASSWORD);
 
         get("/", (req, res) -> "Hello, World");
 
@@ -33,11 +31,10 @@ public class SMSBackend {
         post("/sms", (req, res) -> {
             String body = req.queryParams("Body");
             String to = req.queryParams("To");
-            String from = "+14437207354";
 
             Map<String, String> callParams = new HashMap<>();
             callParams.put("To", to);
-            callParams.put("From", from);
+            callParams.put("From", Constants.PHONE_NUMBER);
             callParams.put("Body", body);
             Sms message = client.getAccount().getSmsFactory().create(callParams);
 
