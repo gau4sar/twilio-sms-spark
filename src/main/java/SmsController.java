@@ -18,6 +18,8 @@ public class SmsController {
 
         get("/users", (request, response) -> {
 
+            System.out.println(response.body());
+            
             List<SmsMessage> messageList = new ArrayList<>();
             SmsList smss = client.getAccount().getSmsMessages();
 
